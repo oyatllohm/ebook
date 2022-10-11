@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializer import *
 from django.http import JsonResponse
+from .error_status import *
+from rest_framework.authtoken.models import Token
 # Create your views here.
 
 class RegisterApiView(APIView):
@@ -18,8 +20,26 @@ class RegisterApiView(APIView):
                 "status":"error",
                 "errors":serializer.errors
             })
+        
+    
+class Autoview(APIView):
+    def post(self,request):
+        passport = request.data.get('passport')
+        if passport is None:
+            return Response({
+                'Error_status':PASSPORT_NUMBER_NOD_SEND,
+                'status':'Error'
+            })
 
-
+        try:
+            user = User.objects.get(username=passport)
+        except:
+            return Response({'Error_status':USER_NOT_FOUND,
+                'status':'Error'})
+        token = Token.objects.create(user=user)
+        return Response({'Error_status':SUCCESS,
+                'status':'ok',
+                'token': token.key})
 
 from .load_data import load_data
 def LoadView(request):
