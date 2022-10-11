@@ -1,6 +1,5 @@
 from distutils.command.upload import upload
 from django.db import models
-
 # Create your models here.
 
 class Faculty(models.Model):
@@ -19,8 +18,7 @@ class Category(models.Model):
     class Mete:
         verbose_name =  'Categorya'
         verbose_name_plural ='Categoryalar'
-        
-        
+
 class Book(models.Model):
     category = models.ForeignKey(Category, on_delete = models.PROTECT)
     title = models.CharField(max_length=25)
@@ -29,7 +27,17 @@ class Book(models.Model):
     file =  models.FileField()
     def __str__(self):
         return self.title
-    
+
     class Mete:
         verbose_name =  'kitob'
         verbose_name_plural ='kitoblar'
+
+
+class Contact(models.Model):
+    student = models.ForeignKey('reader.Student', on_delete = models.CASCADE,null=True)
+    name = models.CharField(max_length=55,blank=True)
+    email = models.EmailField(max_length=55,blank=True)
+    subject = models.CharField(max_length=100)
+    msg = models.TextField()
+    data = models.DateTimeField(auto_now_add=True)
+    showed = models.BooleanField(default=False)

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CategoryApiView , BookApiView ,Get_student,Downland_ApiView
+from .views import CategoryApiView , BookApiView ,Get_student,Downland_ApiView,ContactApiView
 
 categorys_view = CategoryApiView.as_view({"get":"list"})
 categoris_id_view = CategoryApiView.as_view({"get":"retrive"})
@@ -10,4 +10,5 @@ urlpatterns = [
     path('categories',categorys_view, name="categories"),
     path('book',BookApiView.as_view(),name='book'),
     path('downland/<int:pk>',Downland_ApiView.as_view(),name= 'downland'),
+    path('contactSerializers',ContactApiView.as_view(),name='contact')
 ]
